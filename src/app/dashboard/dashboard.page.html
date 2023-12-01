@@ -1,0 +1,221 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Data inventory</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item-sliding *ngFor="let item of datainventory">
+          <ion-item [button]="true">
+            <ion-label>
+              {{item.name}}
+              <p>{{item.description}}</p>
+              <p>{{item.category}}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item-options slot="end">
+            <ion-item-option
+              color="tertiary"
+              (click)="open_modal_edit(true,item.id)"
+            >
+              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            </ion-item-option>
+            <ion-item-option
+              color="danger"
+              id="hapus"
+              (click)="hapusinventory(item.id)"
+              expandable="true"
+            >
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+              <ion-toast
+                trigger="hapus"
+                message="Data inventory Berhasil Dihapus"
+                [duration]="5000"
+              ></ion-toast>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+        <ion-card>
+          <ion-button
+            color="success"
+            (click)="open_modal_tambah(true)"
+            expand="block"
+          >
+            Tambah inventory
+          </ion-button>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-list>
+          <ion-item>
+            <ion-badge slot="start">{{ getJumlahData() }}</ion-badge>
+            <ion-label>Jumlah inventory</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- ini untuk modal tambah -->
+  <ion-modal [isOpen]="modal_tambah">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Batal</ion-button>
+          </ion-buttons>
+          <ion-title>Tambah inventory</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            label="Nama inventory"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="name"
+            placeholder="Masukkan Nama barang"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="description inventory"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="description"
+            placeholder="Masukkan description inventory"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="quantity inventory"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="quantity"
+            placeholder="Masukkan quantity inventory"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="category inventory"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="category"
+            placeholder="Masukkan category inventory"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-row>
+          <ion-col>
+            <ion-button
+              type="button"
+              id="tambah"
+              (click)="tambahinventory()"
+              color="success"
+              shape="full"
+              expand="block"
+              >Tambah inventory
+            </ion-button>
+            <ion-toast
+              trigger="tambah"
+              message="Data inventory Berhasil Ditambahkan"
+              [duration]="5000"
+            ></ion-toast>
+          </ion-col>
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- ini untuk modal edit -->
+  <ion-modal [isOpen]="modal_edit">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Batal</ion-button>
+          </ion-buttons>
+          <ion-title>Edit inventory</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            label="Nama inventory"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="name"
+            placeholder="Masukkan Nama inventory"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="description inventory"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="description"
+            placeholder="Masukkan description inventory"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="quantity inventory"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="quantity"
+            placeholder="Masukkan quantity inventory"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="category inventory"
+            labelPlacement="floating"
+            required
+            [(ngModel)]="category"
+            placeholder="Masukkan category inventory"
+            type="text"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-input required [(ngModel)]="id" type="hidden"> </ion-input>
+        <ion-row>
+          <ion-col>
+            <ion-button
+              type="button"
+              id="edit"
+              (click)="editinventory()"
+              color="primary"
+              shape="full"
+              expand="block"
+              >Edit inventory
+            </ion-button>
+            <ion-toast
+              trigger="edit"
+              message="Data inventory Berhasil Diedit"
+              [duration]="5000"
+            ></ion-toast>
+          </ion-col>
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
